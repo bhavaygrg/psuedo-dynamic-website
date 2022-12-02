@@ -12,10 +12,13 @@ const navbarContent = document.getElementById("navbar-content");
 const btnCloseNav = document.getElementById("btn-close-navbar");
 const btnShowCart = document.getElementById("btn-shopping-bag");
 const btnBuyerMain = document.querySelector(".btn-buyer");
+const loginmod = document.getElementById("login-modal");
+
 const btnSellerMain = document.querySelector(".btn-seller");
+const password = document.getElementById("password");
+const login = document.querySelector(".submit-btn");
 const numberNavbar = document.querySelector(".count-cart");
 let searchInput = document.getElementById("search-input");
-
 // Cart
 const cartSection = document.getElementById("cart-section");
 const btnCloseCart = document.getElementById("btn-close-cart");
@@ -67,7 +70,10 @@ function userTyper(isABuyer) {
   isBuyer = isABuyer;
   // modalStarter.style.display = "none";
 }
-
+btnSellerMain.addEventListener("click", () => {
+  document.getElementById("product-list").style.display = "none";
+  // console.log("click");
+});
 btnBuyerMain.addEventListener("click", () => {
   btnSellerMain.classList.remove("btn-active");
   btnBuyerMain.classList.add("btn-active");
@@ -77,13 +83,22 @@ btnBuyerMain.addEventListener("click", () => {
   render(productsList);
 });
 
-btnSellerMain.addEventListener("click", () => {
-  btnBuyerMain.classList.remove("btn-active");
-  btnSellerMain.classList.add("btn-active");
-  btnAddProduct.style.display = "block";
-  userTyper(false);
-  productsList = getProducts("products");
-  render(productsList);
+login.addEventListener("click", () => {
+  if (
+    password.value == "abhishek1" ||
+    password.value == "bhavay9" ||
+    password.value == "mohit11" ||
+    password.value == "tushar23"
+  ) {
+    btnBuyerMain.classList.remove("btn-active");
+    btnSellerMain.classList.add("btn-active");
+    btnAddProduct.style.display = "block";
+    userTyper(false);
+    productsList = getProducts("products");
+    render(productsList);
+  } else {
+    alert("Wrong Credentials");
+  }
 });
 
 btnAddProduct.addEventListener("click", () => {
@@ -112,11 +127,18 @@ function toggleClass(element, section, className) {
   });
 }
 
-btnSubmitFormProduct.addEventListener("click", () =>
-  SubmitFormToCreateProduct()
-);
+btnSubmitFormProduct.addEventListener("click", () => {
+  SubmitFormToCreateProduct();
+});
+
+document.getElementById("submit-btn").addEventListener("click", () => {
+  SubmitFormToCreateProduct();
+  document.getElementById("product-list").style.display = "";
+  document.getElementById("login-modal").style.display = "none";
+});
 
 const SubmitFormToCreateProduct = () => {
+  // document.getElementById("product-list").style.display = "";
   if (
     checkFormData(
       productName.value,
@@ -135,7 +157,18 @@ const SubmitFormToCreateProduct = () => {
     );
     if (isCreate) {
       productsList.push(newProductObject);
+      firebase
+        .database()
+        .ref("student/" + id)
+        .set({
+          Name: productName.value,
+          Cate: productCategory.value,
+          Price: productPrice.value,
+          URL: productImageUrl.value,
+        });
+      alert("Data Inserted");
     } else {
+      alert("Input is not Valid");
       productsList[INDEX_PRODUCT_GLOBAL] = newProductObject;
     }
     postProducts("products", productsList);
@@ -144,8 +177,6 @@ const SubmitFormToCreateProduct = () => {
     cleanInputForm();
 
     render(products);
-  } else {
-    alert("Input is not Valid");
   }
 };
 
