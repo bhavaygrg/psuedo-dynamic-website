@@ -25,6 +25,8 @@
 
     <!-- style Css -->
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   </head>
   <body>
     <!-- navBar -->
@@ -33,7 +35,8 @@
 
       <div class="logo">
         <a href="index.html">
-          <img src="img/Logo.svg" alt="logo Website" />
+          <!-- <img src="img/Logo.svg" alt="logo Website" /> -->
+          <h1>Shopper</h1>
         </a>
       </div>
       <i class="fas fa-bars" id="btn-close-navbar"></i>
@@ -58,6 +61,40 @@
           <button type="button" class="btn-seller" id="btn-seeler">
             Seller
           </button>
+          <div id="login-modal">
+            <div class="modal">
+              <div class="top-form">
+                <div class="close-modal"></div>
+              </div>
+              <div class="login-form">
+                <h2>Login With Email</h2>
+                <form action="#">
+                  <input class="form-control" type="text" placeholder="Email" />
+                  <input
+                    class="form-control"
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                  />
+                  <button type="button" id="submit-btn" class="submit-btn">
+                    Login
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <script type="text/javascript">
+            $(function () {
+              $("#btn-seeler").click(function () {
+                $("#login-modal").fadeIn().css("display", "flex");
+              });
+
+              $(".close-modal").click(function () {
+                $("#login-modal").fadeOut();
+              });
+            });
+          </script>
 
           <button type="button" class="btn-shopping-bag" id="btn-shopping-bag">
             <span class="count-cart">2</span>
@@ -112,9 +149,7 @@
         <!--Section of Products List -->
         <section id="product-list" class="wrap-product-list">
           <ul class="product-list"></ul>
-          <section class="empty">
-            <p class="emptyText">There's no any Product, add Some Product</p>
-          </section>
+          <section class="empty"></section>
         </section>
       </main>
     </div>
@@ -286,6 +321,8 @@
     <!-- End: Modal for add Products -->
 
     <script src="js/logic.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase.js"></script>
     <script src="js/script.js"></script>
+    <script src="./fireConfig.js"></script>
   </body>
 </html>
