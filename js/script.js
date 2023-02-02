@@ -559,3 +559,5 @@ btnGrid.addEventListener("click", () => {
   item6.classList.remove("price-list");
   item6.classList.add("price");
 });
+
+//edited by tushar
